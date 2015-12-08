@@ -1,5 +1,5 @@
 
-＃ android studio build项目速度
+# android studio build项目速度
 
 
 ### build.gradle 依赖犯错
