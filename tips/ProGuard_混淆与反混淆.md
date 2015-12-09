@@ -40,7 +40,7 @@
 在 /app/build/outputs/ 目录下生成如下几个有用的东西:
 
 - /apk/... ［上线的包]()
-- /mapping/flavor/release/mapping.txt [混淆堆栈必备品]()
+- /mapping/flavor/release/mapping.txt [混淆堆栈必备品](https://developer.android.com/tools/help/proguard.html#decoding)
 
 ### 还原BEFORE
 
