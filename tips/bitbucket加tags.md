@@ -21,7 +21,7 @@ git tag -a 6.5.0 -m "version 6.5.0"
 git push --tags 
 # delete 标签
 git tag -d 6.5.0
-＃ delete 标签 from 仓库
+# delete 标签 from 仓库
 git push origin :refs/tags/6.5.0  #未试验
 ```
 
