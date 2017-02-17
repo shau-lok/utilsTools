@@ -173,3 +173,61 @@ netstat –apn | grep 443
 - [ios配置cisco-anyconnect教程](https://www.joyvm.com/tutorials/ios-anyconnect-setup)
 
 - [server搭载教程](https://www.vultr.com/docs/setup-openconnect-vpn-server-for-cisco-anyconnect-on-ubuntu-14-04-x64)
+
+
+
+----
+
+## 通过证书验证
+
+进入certificates目录创建user.tmpl
+
+```
+cn = "some random name"
+unit = "some random unit"
+expiration_days = 365
+signing_key
+tls_www_client
+```
+
+创建user密钥
+
+```
+certtool --generate-privkey --outfile user-key.pem
+```
+
+User证书
+
+```
+certtool --generate-certificate --load-privkey user-key.pem --load-ca-certificate ca-cert.pem --load-ca-privkey ca-key.pem --template user.tmpl --outfile user-cert.pem
+```
+
+然后要将证书和密钥转为PKCS12的格式
+
+```
+certtool --to-p12 --load-privkey user-key.pem --pkcs-cipher 3des-pkcs12 --load-certificate user-cert.pem --outfile user.p12 --outder
+```
+
+user.p12即可导入到手机
+
+关于OCserv的配置
+
+```
+# 改为证书登陆，注释掉原来的登陆模式
+auth = "certificate"
+
+# 证书认证不支持这个选项，注释掉这行
+#listen-clear-file = /var/run/ocserv-conn.socket
+
+# 启用证书验证
+ca-cert = /etc/ssl/private/my-ca-cert.pem
+```
+
+
+关于端口转发
+
+```
+iptables -t nat -A POSTROUTING -j MASQUERADE
+iptables -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+```
+
